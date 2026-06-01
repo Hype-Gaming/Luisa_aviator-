@@ -7,8 +7,14 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   modules: ['@nuxt/icon'],
   icon: {
+    // SSR: embute as coleções no servidor
     serverBundle: {
       collections: ['ph', 'svg-spinners']
+    },
+    // Cliente: embute os ícones usados no bundle (sem fetch em runtime na Iconify)
+    clientBundle: {
+      scan: true,
+      sizeLimitKb: 512
     }
   },
   app: {
