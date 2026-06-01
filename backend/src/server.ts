@@ -32,7 +32,7 @@ const { startSignalBotJob } = await import('./jobs/signalBotJob.js')
 // ============================================
 // Config
 // ============================================
-const PORT = Number(process.env.PORT) || 3099
+const PORT = Number(process.env.PORT) || 3013
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/aplicativo-eb'
 const API_URL = process.env.API_URL || `http://localhost:${PORT}`
 
@@ -57,6 +57,7 @@ const CORS_ORIGINS = [
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3002',
+  'http://localhost:3012',
   'https://routes-eb.grupoautoma.com',
   // Produção
   'https://app.aviatorprime.com',

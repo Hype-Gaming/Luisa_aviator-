@@ -32,7 +32,7 @@ export default defineNuxtConfig({
     }
   },
   devServer: {
-    port: Number(process.env.PORT) || 3002
+    port: Number(process.env.PORT) || 3012
   },
   vite: {
     server: {

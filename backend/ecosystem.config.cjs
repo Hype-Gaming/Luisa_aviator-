@@ -44,12 +44,14 @@ module.exports = {
       env: {
         ...loadEnv('.env'),
         NODE_ENV: 'development',
+        PORT: 3013,
       },
 
       // Ambiente — PRODUÇÃO
       env_production: {
         ...loadEnv('.env.production'),
         NODE_ENV: 'production',
+        PORT: 3013,
       },
     },
   ],
