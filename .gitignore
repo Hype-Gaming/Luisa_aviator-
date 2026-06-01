@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Build output / generated
+dist/
+build/
+.output/
+.nuxt/
+.nitro/
+.cache/
+*.tsbuildinfo
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime / PM2
+.pm2/
+
+# Coverage / test
+coverage/
+.nyc_output/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Misc
+*.local

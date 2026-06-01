@@ -1,0 +1,20 @@
+<svg width="1600" height="1600" viewBox="0 0 1600 1600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="1600" fill="#000"/>
+  <g transform="translate(250 285)">
+    <path d="M352 496C314 368 371 228 502 142C664 36 873 45 1022 161" stroke="#fff" stroke-width="22" stroke-linecap="round"/>
+    <path d="M477 925C705 845 912 683 1080 460" stroke="#ff0909" stroke-width="28" stroke-linecap="round"/>
+    <path d="M700 890C840 935 1012 858 1080 696C1105 637 1116 575 1110 514" stroke="#ff0909" stroke-width="14" stroke-linecap="round"/>
+    <path d="M1160 55C958 137 788 284 660 480C828 420 995 287 1160 55Z" fill="#fff"/>
+    <path d="M817 197L716 213L690 231L829 248L1012 174L930 249L1109 105L966 211L818 197Z" fill="#fff"/>
+    <path d="M934 318L743 431L879 276L1027 187L934 318Z" fill="#fff"/>
+    <path d="M993 329L1008 441L1076 247L1042 273L993 329Z" fill="#fff"/>
+    <path d="M164 760C468 653 764 478 1049 237" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+    <path d="M240 888C525 781 794 598 1046 340" stroke="#fff" stroke-width="26" stroke-linecap="round"/>
+    <text x="410" y="426" fill="#fff" font-family="Arial Black, Impact, sans-serif" font-size="90" font-weight="900">x</text>
+    <text x="520" y="426" fill="#ff0909" font-family="Arial Black, Impact, sans-serif" font-size="165" font-weight="900" font-style="italic">2</text>
+    <text x="10" y="1120" fill="#fff" font-family="Arial Black, Impact, sans-serif" font-size="245" font-weight="900" letter-spacing="-4">EDER</text>
+    <text x="305" y="1244" fill="#fff" font-family="Arial, sans-serif" font-size="58" font-weight="700" letter-spacing="68">AVIATOR</text>
+    <path d="M44 1195H170L230 1230H92L44 1195Z" fill="#ff0909"/>
+    <path d="M1032 1195H1158L1110 1230H972L1032 1195Z" fill="#ff0909"/>
+  </g>
+</svg>
