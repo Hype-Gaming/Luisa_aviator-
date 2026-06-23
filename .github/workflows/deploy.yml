@@ -61,26 +61,36 @@ jobs:
           script: |
             set -e
 
-            # Carrega nvm/Node caso esteja instalado por nvm (shell não-interativo)
+            # Shell SSH não-interativo não carrega ~/.bashrc, então Node/npm/pm2
+            # podem não estar no PATH. Resolve nvm e os caminhos globais comuns.
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export PATH="$NVM_DIR/versions/node/*/bin:/usr/local/bin:/usr/bin:$HOME/.npm-global/bin:$PATH"
+            # Expande o glob do nvm (se houver) para um caminho real
+            for d in "$NVM_DIR"/versions/node/*/bin; do [ -d "$d" ] && export PATH="$d:$PATH"; done
 
+            echo "==> Ambiente"
+            echo "node: $(command -v node || echo 'NÃO ENCONTRADO')  $(node -v 2>/dev/null)"
+            echo "npm:  $(command -v npm  || echo 'NÃO ENCONTRADO')  $(npm -v 2>/dev/null)"
+            echo "pm2:  $(command -v pm2  || echo 'NÃO ENCONTRADO')  $(pm2 -v 2>/dev/null)"
+
+            echo "==> Atualizando código em ${{ secrets.VPS_PATH }}"
             cd "${{ secrets.VPS_PATH }}"
-
             # git é a fonte da verdade (não usa git clean p/ preservar .env e uploads/)
             git fetch --all
             git reset --hard origin/main
 
-            # ── Backend ──
+            echo "==> Backend: install + build + reload"
             cd backend
             npm ci
             npm run build
             pm2 startOrReload ecosystem.config.cjs --env production
 
-            # ── Frontend ──
+            echo "==> Frontend: install + build + reload"
             cd ../frontend
             npm ci
             npm run build
             pm2 startOrReload ecosystem.config.cjs --env production
 
             pm2 save
+            echo "==> Deploy concluído"
