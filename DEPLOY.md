@@ -45,11 +45,11 @@ Repositório → **Settings → Secrets and variables → Actions**.
 
 | Nome | Valor |
 |------|-------|
-| `DEPLOY_PATH` | caminho do repositório na VPS (ex: `/root/luisa-aviator`) |
+| `VPS_PATH` | caminho do repositório na VPS (ex: `/root/luisa-aviator`) |
 
 ### 4. Pré-requisitos na VPS
 
-- O repositório já clonado em `DEPLOY_PATH`, com o remote `origin` apontando para o GitHub.
+- O repositório já clonado em `VPS_PATH`, com o remote `origin` apontando para o GitHub.
 - **Node ≥ 20** (idealmente 22) disponível para o usuário do deploy.
   - Se instalado por **nvm**, o workflow já carrega o nvm automaticamente.
 - **PM2** instalado globalmente (`npm i -g pm2`).

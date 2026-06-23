@@ -85,7 +85,7 @@ pm2 save
 | `SSH_USER` | secret | usuário SSH | `root` / `deploy` |
 | `SSH_KEY` | secret | chave **privada** (PEM) com acesso à VPS | conteúdo do `id_ed25519` |
 | `SSH_PORT` | secret/var (opcional) | porta SSH | `22` |
-| `DEPLOY_PATH` | variable | caminho do repo na VPS | `/root/luisa-aviator` |
+| `VPS_PATH` | variable | caminho do repo na VPS | `/root/luisa-aviator` |
 
 Setup da chave: gerar um par dedicado ao deploy; **pública** vai no `~/.ssh/authorized_keys` da VPS,
 **privada** vai no secret `SSH_KEY`.

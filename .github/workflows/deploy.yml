@@ -65,7 +65,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-            cd "${{ vars.DEPLOY_PATH }}"
+            cd "${{ vars.VPS_PATH }}"
 
             # git é a fonte da verdade (não usa git clean p/ preservar .env e uploads/)
             git fetch --all
