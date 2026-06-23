@@ -1,0 +1,86 @@
+name: Deploy
+
+# Dispara em push na main (deploy automático).
+on:
+  push:
+    branches: [main]
+
+# Evita dois deploys simultâneos; deixa o que está rodando terminar e enfileira o próximo.
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+jobs:
+  # ──────────────────────────────────────────────────────────────
+  # 1) Validação: build do backend e do frontend no runner do GitHub.
+  #    Se qualquer build quebrar, o job de deploy nem começa.
+  # ──────────────────────────────────────────────────────────────
+  validate:
+    name: Validate build (${{ matrix.app }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        app: [backend, frontend]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: ${{ matrix.app }}/package-lock.json
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.app }}
+        run: npm ci
+
+      - name: Build
+        working-directory: ${{ matrix.app }}
+        run: npm run build
+
+  # ──────────────────────────────────────────────────────────────
+  # 2) Deploy: SSH na VPS, atualiza o código, builda e recarrega
+  #    backend e frontend via PM2. Só roda se o validate passar.
+  # ──────────────────────────────────────────────────────────────
+  deploy:
+    name: Deploy to VPS
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          script_stop: true
+          script: |
+            set -e
+
+            # Carrega nvm/Node caso esteja instalado por nvm (shell não-interativo)
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+            cd "${{ vars.DEPLOY_PATH }}"
+
+            # git é a fonte da verdade (não usa git clean p/ preservar .env e uploads/)
+            git fetch --all
+            git reset --hard origin/main
+
+            # ── Backend ──
+            cd backend
+            npm ci
+            npm run build
+            pm2 startOrReload ecosystem.config.cjs --env production
+
+            # ── Frontend ──
+            cd ../frontend
+            npm ci
+            npm run build
+            pm2 startOrReload ecosystem.config.cjs --env production
+
+            pm2 save
