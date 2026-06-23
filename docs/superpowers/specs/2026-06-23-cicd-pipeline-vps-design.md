@@ -58,7 +58,7 @@ deixando o app antigo no ar se algo quebrar):
 
 ```bash
 set -e
-cd "$DEPLOY_PATH"
+cd "$VPS_PATH"
 git fetch --all
 git reset --hard origin/main          # git é a fonte da verdade
 
