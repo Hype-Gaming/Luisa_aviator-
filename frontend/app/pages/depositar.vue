@@ -39,7 +39,7 @@ function parseAmount(value: string) {
 function authHeaders() {
   const token = localStorage.getItem('access_token') || localStorage.getItem('userToken')
   const cookieKey = localStorage.getItem('cookie_key') || localStorage.getItem('cookieKey')
-  const brandSlug = localStorage.getItem('brandSlug') || 'esportiva'
+  const brandSlug = localStorage.getItem('brandSlug') || 'bateu'
   const baseDomain = localStorage.getItem('baseDomain') || 'bet.br'
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
@@ -138,7 +138,7 @@ async function generatePix() {
         body: {
           amount: String(parsedAmount),
           user_id: Number(localStorage.getItem('user_id') || '0'),
-          slug: localStorage.getItem('brandSlug') || 'esportiva',
+          slug: localStorage.getItem('brandSlug') || 'bateu',
           user_name: localStorage.getItem('user_name') || localStorage.getItem('name') || '',
           user_email: localStorage.getItem('user_email') || localStorage.getItem('email') || '',
         },

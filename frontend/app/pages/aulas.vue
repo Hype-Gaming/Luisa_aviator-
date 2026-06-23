@@ -16,13 +16,13 @@ useHead({ title: 'Aulas - Luisa Aviator' })
       <div class="notice-box lessons-notice">
         <Icon name="ph:video-bold" class="lessons-notice-icon" />
         <div>
-          <p>As aulas estão disponíveis no canal oficial do <strong>Luisa Aviator</strong> no YouTube.</p>
+          <p>As aulas estão disponíveis no minicurso oficial do <strong>Luisa Aviator</strong>.</p>
           <p class="lessons-notice-detail">Aprenda as estratégias, entenda as análises e coloque em prática tudo o que o Luisa Aviator oferece para você operar com segurança.</p>
         </div>
       </div>
 
       <a
-        href="https://www.youtube.com/@ederaviator"
+        href="https://luisaaviator.com/minicurso/"
         target="_blank"
         rel="noopener noreferrer"
         class="primary-btn wide lessons-btn"
@@ -31,7 +31,7 @@ useHead({ title: 'Aulas - Luisa Aviator' })
         <Icon name="ph:arrow-square-out-bold" />
       </a>
 
-      <p class="lessons-hint">Você será redirecionado para o canal oficial no YouTube em uma nova aba.</p>
+      <p class="lessons-hint">Você será redirecionado para o minicurso oficial em uma nova aba.</p>
     </section>
   </main>
 </template>

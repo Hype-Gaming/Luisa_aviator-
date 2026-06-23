@@ -265,6 +265,8 @@ function extractGameUrl(data: any): string | null {
 async function loadGame() {
   const token = localStorage.getItem('access_token') || localStorage.getItem('userToken')
   const cookieKey = localStorage.getItem('cookie_key') || localStorage.getItem('cookieKey')
+  const brandSlug = localStorage.getItem('brandSlug') || 'bateu'
+  const baseDomain = localStorage.getItem('baseDomain') || 'bet.br'
   const sessionExpiresAt = Number(localStorage.getItem('sessionExpiresAt') || '0')
 
   gameUrl.value = ''
@@ -279,14 +281,18 @@ async function loadGame() {
     gameError.value = ''
 
     const data = await $fetch<any>('https://routes-eb.grupoautoma.com/api/start-game/', {
+      cache: 'no-store',
       params: {
         slug: 'spribe/aviator',
         platform: 'WEB',
         use_demo: '0',
+        _t: Date.now(),
       },
       headers: {
         Authorization: `Bearer ${token}`,
         'X-Cactus-Cookie-Key': cookieKey,
+        'X-Brand-Slug': brandSlug,
+        'X-Base-Domain': baseDomain,
       },
     })
 

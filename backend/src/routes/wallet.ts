@@ -6,7 +6,7 @@ const ROUTES_API = process.env.ROUTES_API_BASE || 'https://routes-eb.grupoautoma
 function getAuthHeaders(request: any) {
   const authorization = request.headers.authorization as string | undefined
   const cookieKey = request.headers['x-cactus-cookie-key'] as string | undefined
-  const brandSlug = (request.headers['x-brand-slug'] as string | undefined) || 'esportiva'
+  const brandSlug = (request.headers['x-brand-slug'] as string | undefined) || 'bateu'
   const baseDomain = (request.headers['x-base-domain'] as string | undefined) || 'bet.br'
 
   const headers: Record<string, string> = {

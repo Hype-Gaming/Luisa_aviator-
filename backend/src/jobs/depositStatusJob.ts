@@ -41,7 +41,7 @@ async function checkPendingDeposits() {
           'Content-Type': 'application/json',
         }
         if (deposit.cookieKey) headers['X-Cactus-Cookie-Key'] = deposit.cookieKey
-        headers['X-Brand-Slug'] = deposit.brandSlug || 'esportiva'
+        headers['X-Brand-Slug'] = deposit.brandSlug || 'bateu'
         headers['X-Base-Domain'] = deposit.baseDomain || 'bet.br'
 
         const res = await fetch(

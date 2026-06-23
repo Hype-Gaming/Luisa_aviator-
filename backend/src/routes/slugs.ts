@@ -116,7 +116,7 @@ export default async function slugRoutes(fastify: FastifyInstance) {
           success: true, 
           data: {
             slug: slug.toLowerCase(),
-            brandSlug: 'esportiva',
+            brandSlug: 'bateu',
             baseDomain: 'bet.br',
             name: slug,
             description: '',
@@ -136,7 +136,7 @@ export default async function slugRoutes(fastify: FastifyInstance) {
         success: true, 
         data: {
           slug: slugDoc.slug,
-          brandSlug: (slugDoc as any).brandSlug || 'esportiva',
+          brandSlug: (slugDoc as any).brandSlug || 'bateu',
           baseDomain: (slugDoc as any).baseDomain || 'bet.br',
           name: slugDoc.name,
           description: slugDoc.description || '',
@@ -186,7 +186,7 @@ export default async function slugRoutes(fastify: FastifyInstance) {
 
       const newSlug = await SlugModel.create({
         slug: normalizedSlug,
-        brandSlug: request.body.brandSlug?.toLowerCase().trim() || 'esportiva',
+        brandSlug: request.body.brandSlug?.toLowerCase().trim() || 'bateu',
         baseDomain: request.body.baseDomain?.toLowerCase().trim() || 'bet.br',
         name,
         description: request.body.description || '',
@@ -227,7 +227,7 @@ export default async function slugRoutes(fastify: FastifyInstance) {
 
       if (name !== undefined) updateData.name = name
       if (active !== undefined) updateData.active = active
-      if (request.body.brandSlug !== undefined) updateData.brandSlug = request.body.brandSlug.toLowerCase().trim() || 'esportiva'
+      if (request.body.brandSlug !== undefined) updateData.brandSlug = request.body.brandSlug.toLowerCase().trim() || 'bateu'
       if (request.body.baseDomain !== undefined) updateData.baseDomain = request.body.baseDomain.toLowerCase().trim() || 'bet.br'
 
       // Garantir apenas um slug default

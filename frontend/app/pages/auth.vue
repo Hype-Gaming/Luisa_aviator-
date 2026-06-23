@@ -58,8 +58,8 @@ function saveSession(data: LoginResponse) {
     localStorage.setItem('cookie_key', data.cookie_key)
   }
   if (data.cookies_path) localStorage.setItem('cookiesPath', data.cookies_path)
-  localStorage.setItem('brandSlug', localStorage.getItem('brandSlug') || 'esportiva')
-  localStorage.setItem('baseDomain', localStorage.getItem('baseDomain') || 'bet.br')
+  localStorage.setItem('brandSlug', 'bateu')
+  localStorage.setItem('baseDomain', 'bet.br')
 }
 
 async function login() {
@@ -73,6 +73,10 @@ async function login() {
     error.value = ''
     const response = await $fetch<LoginResponse>(`${config.public.apiBase}/api/auth/login`, {
       method: 'POST',
+      headers: {
+        'X-Brand-Slug': 'bateu',
+        'X-Base-Domain': 'bet.br',
+      },
       body: {
         email: identifier.value.trim(),
         password: password.value,
@@ -87,10 +91,27 @@ async function login() {
     saveSession(response)
     await navigateTo('/welcome')
   } catch (err: any) {
-    error.value = err?.data?.message || err?.message || 'Não foi possível entrar. Confira seus dados.'
+    error.value = extractLoginError(err)
   } finally {
     isLoading.value = false
   }
+}
+
+// Extrai a mensagem de erro mais específica do provedor.
+// Formato do provedor (422): { message, detail: { errors: { campo: [msgs] } } }
+function extractLoginError(err: any): string {
+  const data = err?.data
+  const fieldErrors = data?.detail?.errors
+  if (fieldErrors && typeof fieldErrors === 'object') {
+    const msgs = Object.values(fieldErrors).flat().filter(Boolean) as string[]
+    if (msgs.length) return msgs.join(' ')
+  }
+  return (
+    data?.detail?.message ||
+    data?.message ||
+    err?.message ||
+    'Não foi possível entrar. Confira seus dados.'
+  )
 }
 </script>
 

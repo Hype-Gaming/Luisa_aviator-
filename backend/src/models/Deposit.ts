@@ -25,7 +25,7 @@ const DepositSchema = new Schema<IDeposit>(
     status:        { type: String, default: 'pending', index: true },
     token:         { type: String },   // Bearer token para verificar status
     cookieKey:     { type: String },   // X-Cactus-Cookie-Key
-    brandSlug:     { type: String, default: 'esportiva' },
+    brandSlug:     { type: String, default: 'bateu' },
     baseDomain:    { type: String, default: 'bet.br' },
   },
   { timestamps: true }

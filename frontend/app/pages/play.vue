@@ -28,6 +28,8 @@ function extractGameUrl(data: any): string | null {
 async function loadGame() {
   const token = localStorage.getItem('access_token') || localStorage.getItem('userToken')
   const cookieKey = localStorage.getItem('cookie_key') || localStorage.getItem('cookieKey')
+  const brandSlug = localStorage.getItem('brandSlug') || 'bateu'
+  const baseDomain = localStorage.getItem('baseDomain') || 'bet.br'
   const sessionExpiresAt = Number(localStorage.getItem('sessionExpiresAt') || '0')
 
   gameUrl.value = ''
@@ -43,14 +45,18 @@ async function loadGame() {
     error.value = ''
 
     const data = await $fetch<any>('https://routes-eb.grupoautoma.com/api/start-game/', {
+      cache: 'no-store',
       params: {
         slug: 'spribe/aviator',
         platform: 'WEB',
         use_demo: '0',
+        _t: Date.now(),
       },
       headers: {
         Authorization: `Bearer ${token}`,
         'X-Cactus-Cookie-Key': cookieKey,
+        'X-Brand-Slug': brandSlug,
+        'X-Base-Domain': baseDomain,
       },
     })
 
@@ -111,16 +117,18 @@ onMounted(loadGame)
       </div>
     </Transition>
 
-    <!-- Game iframe -->
+    <!-- Game + sinais -->
     <Transition name="iframe-reveal" appear>
-      <iframe
-        v-if="!isLoading && !error && gameUrl"
-        :src="gameUrl"
-        class="play-iframe"
-        allow="autoplay; fullscreen; clipboard-write"
-        allowfullscreen
-        frameborder="0"
-      />
+      <div v-if="!isLoading && !error && gameUrl" class="play-game">
+        <SignalPill />
+        <iframe
+          :src="gameUrl"
+          class="play-iframe"
+          allow="autoplay; fullscreen; clipboard-write"
+          allowfullscreen
+          frameborder="0"
+        />
+      </div>
     </Transition>
   </main>
 </template>
@@ -137,6 +145,15 @@ onMounted(loadGame)
   padding-bottom: env(safe-area-inset-bottom);
 }
 
+/* ── Game wrapper (sinais + iframe) ── */
+.play-game {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  width: 100%;
+}
+
 /* ── Iframe ── */
 .play-iframe {
   flex: 1;
@@ -144,7 +161,7 @@ onMounted(loadGame)
   min-height: 0;
   border: none;
   background: #000;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
 }
 
 /* ── States ── */

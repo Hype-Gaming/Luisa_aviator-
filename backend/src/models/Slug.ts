@@ -173,7 +173,7 @@ const CustomLinksSchema = new Schema<ICustomLinks>({
 // ============================================
 const SlugSchema = new Schema<ISlug>({
   slug:        { type: String, required: true, unique: true, lowercase: true, trim: true },
-  brandSlug:   { type: String, default: 'esportiva', lowercase: true, trim: true },
+  brandSlug:   { type: String, default: 'bateu', lowercase: true, trim: true },
   baseDomain:  { type: String, default: 'bet.br', lowercase: true, trim: true },
   name:        { type: String, required: true, trim: true },
   description: { type: String, default: '' },

@@ -62,7 +62,7 @@ export default async function depositRoutes(fastify: FastifyInstance) {
           status: 'pending',
           token: token || '',
           cookieKey: String(cookieKey || ''),
-          brandSlug: String(brandSlug || 'esportiva'),
+          brandSlug: String(brandSlug || 'bateu'),
           baseDomain: String(baseDomain || 'bet.br'),
         },
         { upsert: true, new: true }
