@@ -65,8 +65,10 @@ jobs:
             echo "==> Ambiente"
             echo "node $(node -v) | npm $(npm -v) | pm2 $(pm2 -v)"
 
-            echo "==> Atualizando código em ${{ secrets.VPS_PATH }}"
-            cd "${{ secrets.VPS_PATH }}"
+            # Tira \r/\n acidentais do secret (ex: newline colada no fim do VPS_PATH)
+            VPS_PATH="$(printf '%s' "${{ secrets.VPS_PATH }}" | tr -d '\r\n')"
+            echo "==> Atualizando código em $VPS_PATH"
+            cd "$VPS_PATH"
             git fetch --all
             git reset --hard origin/main
 
