@@ -58,11 +58,26 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT || '22' }}
-          debug: true
           command_timeout: 30m
           script: |
-            echo "===== DIAGNOSTICO ====="
-            whoami
-            pwd
-            echo "PATH=$PATH"
-            echo "===== FIM DIAGNOSTICO ====="
+            set -e
+
+            echo "==> Ambiente"
+            echo "node $(node -v) | npm $(npm -v) | pm2 $(pm2 -v)"
+
+            echo "==> Atualizando código em ${{ secrets.VPS_PATH }}"
+            cd "${{ secrets.VPS_PATH }}"
+            git fetch --all
+            git reset --hard origin/main
+
+            # Em produção só o FRONTEND roda (pm2: luisaaviator-front, porta 3012).
+            # O backend não está no ar e não está no caminho das requisições do jogo,
+            # então o deploy não o toca (ele só é validado no job de CI).
+            echo "==> Frontend: install + build + reload"
+            cd frontend
+            npm ci
+            npm run build
+            pm2 reload luisaaviator-front --update-env
+
+            pm2 save
+            echo "==> Deploy concluído"
