@@ -139,7 +139,7 @@ function extractLoginError(err: any): string {
           draggable="false"
         >
         <h1 class="auth-title">Luisa Aviator</h1>
-        <p class="auth-desc">Entre com sua conta da Esportiva Bet</p>
+        <p class="auth-desc">Entre com sua conta da Bateu Bet</p>
       </div>
 
       <!-- Content -->
