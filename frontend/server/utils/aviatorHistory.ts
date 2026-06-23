@@ -10,6 +10,25 @@ const EXTERNAL_HISTORY_URL = 'https://casino-data.grupoautoma.com/results'
 const DEFAULT_LIMIT = 2000
 const MAX_LIMIT = 2000
 
+// O upstream agrupa as rodadas por `date`, mas o array `results` é um buffer rolante
+// (mais novo → mais velho) que dá a VOLTA na meia-noite: a cauda contém o fim do dia
+// ANTERIOR ainda carimbado com a data de hoje. Concatenar `date + Hora` cru faz as
+// rodadas de ontem à noite parecerem as mais recentes. Aqui detectamos a virada e
+// recuamos a data, fixando o fuso de Brasília (-03:00) pra ordenação ficar correta.
+const BRT_OFFSET = '-03:00'
+
+function horaToSeconds(hora: string): number {
+  const [h, m, s] = hora.split(':').map((n) => Number(n))
+  return (h || 0) * 3600 + (m || 0) * 60 + (s || 0)
+}
+
+function shiftIsoDate(isoDate: string, days: number): string {
+  const d = new Date(`${isoDate}T00:00:00Z`)
+  if (!Number.isFinite(d.getTime())) return isoDate
+  d.setUTCDate(d.getUTCDate() + days)
+  return d.toISOString().slice(0, 10)
+}
+
 function toFiniteLimit(value: unknown): number {
   const parsed = Number(value ?? DEFAULT_LIMIT)
   if (!Number.isFinite(parsed) || parsed <= 0) return DEFAULT_LIMIT
@@ -44,15 +63,25 @@ export function normalizeAviatorHistory(payload: any, limit = DEFAULT_LIMIT): Av
     const date = String(doc?.date || '')
     const results = Array.isArray(doc?.results) ? doc.results : []
 
+    // results vem do mais novo pro mais velho; ao percorrer, quando a hora SOBE em vez
+    // de descer, cruzamos a meia-noite indo pro passado → recua um dia.
+    let dayOffset = 0
+    let prevSecs: number | null = null
+
     results.forEach((result: any, index: number) => {
+      const time = String(result?.Hora || '00:00:00')
+      const secs = horaToSeconds(time)
+      if (prevSecs !== null && secs > prevSecs) dayOffset -= 1
+      prevSecs = secs
+
       const crashPoint = Number(result?.multiplier ?? result?.winner)
       if (!Number.isFinite(crashPoint)) return
 
-      const time = String(result?.Hora || '00:00:00')
+      const realDate = date ? shiftIsoDate(date, dayOffset) : ''
       normalized.push({
         _id: `${doc?._id || date || 'external'}-${index}`,
         crash_point: crashPoint,
-        created_at: date ? `${date}T${time}` : new Date().toISOString(),
+        created_at: realDate ? `${realDate}T${time}${BRT_OFFSET}` : new Date().toISOString(),
         color: result?.color,
         source: 'casino-data',
       })
