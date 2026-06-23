@@ -32,20 +32,15 @@ chmod 600 ~/.ssh/authorized_keys
 
 Repositório → **Settings → Secrets and variables → Actions**.
 
-**Secrets** (aba *Secrets*):
+**Secrets** (aba *Secrets* → Repository secrets):
 
 | Nome | Valor |
 |------|-------|
-| `SSH_HOST` | IP/host da VPS (ex: `104.234.186.24`) |
-| `SSH_USER` | usuário SSH (ex: `root`) |
-| `SSH_KEY` | conteúdo **completo** do arquivo `deploy_key` (chave privada) |
-| `SSH_PORT` | porta SSH — opcional, padrão `22` |
-
-**Variável** (aba *Variables*):
-
-| Nome | Valor |
-|------|-------|
-| `VPS_PATH` | caminho do repositório na VPS (ex: `/root/luisa-aviator`) |
+| `VPS_HOST` | IP/host da VPS (ex: `104.234.186.24`) |
+| `VPS_USER` | usuário SSH (ex: `root`) |
+| `VPS_SSH_KEY` | conteúdo **completo** do arquivo `deploy_key` (chave privada) |
+| `VPS_PORT` | porta SSH — opcional, padrão `22` |
+| `VPS_PATH` | caminho do repositório na VPS (ex: `/var/www/luisaaviator/luisa-aviator`) |
 
 ### 4. Pré-requisitos na VPS
 
